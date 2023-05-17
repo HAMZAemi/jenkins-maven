@@ -28,7 +28,7 @@ pipeline {
 
         stage('Build Docker image'){
             steps {
-                sh 'docker build -t anvbhaskar/docker_jenkins_pipeline:${BUILD_NUMBER} .'
+                sh 'docker build -t utilisateur/anvbhaskar/docker_jenkins_pipeline:${BUILD_NUMBER}:tag .'
             }
         }
 
