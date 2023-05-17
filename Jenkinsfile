@@ -28,18 +28,18 @@ pipeline {
 
         stage('Build Docker image'){
             steps {
-                sh "docker build -t mon_nom_utilisateur/anvbhaskar/docker_jenkins_pipeline:${BUILD_NUMBER} ."
+                sh "docker build -t anvbhaskar/docker_jenkins_pipeline:${BUILD_NUMBER} ."
             }
         }
 
-        stage('Docker Login'){
-            
-            steps {
-                 withCredentials([string(credentialsId: 'DockerId', variable: 'Dockerpwd')]) {
-                    sh "docker login -u anvbhaskar -p ${Dockerpwd}"
-                }
-            }                
+     
+       stage('Docker Login'){
+    steps {
+        withCredentials([string(credentialsId: 'DockerToken', variable: 'DockerToken')]) {
+            sh "docker login -u hamzaemi -p ${DockerToken} docker.io"
         }
+    }                
+}
 
         stage('Docker Push'){
             steps {
