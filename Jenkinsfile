@@ -35,8 +35,7 @@ pipeline {
      
        stage('Docker Login'){
     steps {
-        withCredentials([string(credentialsId: 'DockerToken', variable: 'DockerToken')]) {
-            sh "docker login -u hamzaemi -p ${DockerToken} docker.io"
+       sh "docker tag anvbhaskar/docker_jenkins_pipeline:${BUILD_NUMBER} hamzaemi/anvbhaskar/docker_jenkins_pipeline"
         }
     }                
 }
