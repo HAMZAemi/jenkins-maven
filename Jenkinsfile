@@ -41,7 +41,8 @@ pipeline {
 
         stage('Docker Push'){
             steps {
-                sh 'docker push anvbhaskar/docker_jenkins_pipeline:${BUILD_NUMBER}'
+                sh "docker anvbhaskar/docker_jenkins_pipeline:${BUILD_NUMBER} hamzaemi/hamza_el:${BUILD_NUMBER}"
+                sh 'docker push hamzaemi/hamza_el:${BUILD_NUMBER}'
             }
         }
         
