@@ -36,10 +36,12 @@ pipeline {
             }
         }
 
-     stage('Push image to Hub'){
+      stage('Push image to Hub'){
             steps {
-        sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
-            }}
+                sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
+                sh "docker push anvbhaskar/docker_jenkins_pipeline:${BUILD_NUMBER}"
+            }
+        }
   
  stage('Docker*'){
             steps {
