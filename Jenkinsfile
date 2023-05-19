@@ -1,5 +1,9 @@
 pipeline {
     agent any 
+      environment {
+    DOCKERHUB_USERNAME = credentials('dockerhub-creds').username
+    DOCKERHUB_PASSWORD = credentials('dockerhub-creds').password
+  }
     stages {
         stage('Compile and Clean') { 
             steps {
@@ -33,15 +37,9 @@ pipeline {
         }
 
      stage('Push image to Hub'){
-            steps{
-                script{
-                   withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'Hamza1215')]) {
-                   sh 'docker login -u hamzaemi -p ${Hamza1215}'
-
-}
-                }
-            }
-        }
+            steps {
+        sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
+            }}
   
  stage('Docker*'){
             steps {
