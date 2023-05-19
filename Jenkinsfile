@@ -32,7 +32,16 @@ pipeline {
             }
         }
 
-     
+     stage('Push image to Hub'){
+            steps{
+                script{
+                   withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'Hamza1215')]) {
+                   sh 'docker login -u hamzaemi -p ${Hamza1215}'
+
+}
+                }
+            }
+        }
   
  stage('Docker*'){
             steps {
