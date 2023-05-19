@@ -38,11 +38,16 @@ pipeline {
        sh "docker tag anvbhaskar/docker_jenkins_pipeline:${BUILD_NUMBER} hamzaemi/anvbhaskar/docker_jenkins_pipeline"
         }
     }                
-
-        stage('Docker Push'){
+ stage('Docker*'){
             steps {
                 sh "docker tag anvbhaskar/docker_jenkins_pipeline:${BUILD_NUMBER} hamzaemi/hamza_el:${BUILD_NUMBER}"
-                sh 'docker push hamzaemi/hamza_el:${BUILD_NUMBER}'
+               
+            }
+        }
+        
+        stage('Docker Push'){
+            steps {
+                sh "docker push hamzaemi/hamza_el:${BUILD_NUMBER}"
             }
         }
         
