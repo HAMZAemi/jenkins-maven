@@ -36,13 +36,13 @@ pipeline {
        stage('Docker Login'){
     steps {
         
-        script{
-                   withCredentials([string(credentialsId: 'dockerhub-pwd')]) {
-                   sh 'docker login -u hamzaemi -p Hamza1215 ' }
+       script{
+                   withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                   sh 'docker login -u hamzaemi -p ${dockerhubpwd}'
 
-        }
+}
     }    
-       }
+    }}
  stage('Docker*'){
             steps {
                 sh "docker tag anvbhaskar/docker_jenkins_pipeline:${BUILD_NUMBER} hamzaemi/hamza_el:${BUILD_NUMBER}"
