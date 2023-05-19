@@ -1,9 +1,9 @@
 pipeline {
     agent any 
-      environment {
-    DOCKERHUB_USERNAME = credentials('dockerhub-creds').username
-    DOCKERHUB_PASSWORD = credentials('dockerhub-creds').password
-  }
+     environment {
+        DOCKERHUB_USERNAME = "${credentials('dockerhub-creds').username}"
+        DOCKERHUB_PASSWORD = "${credentials('dockerhub-creds').password}"
+    }
     stages {
         stage('Compile and Clean') { 
             steps {
