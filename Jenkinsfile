@@ -1,71 +1,18 @@
 pipeline {
-    agent any 
-
+    agent any
+    
     environment {
-        // Utilisez des guillemets doubles pour les variables d'environnement
-        DOCKERHUB_USERNAME = "${credentials('dockerhub-creds').username}"
-        DOCKERHUB_PASSWORD = "${credentials('dockerhub-creds').password}"
+        DOCKERHUB_USERNAME = credentials('76e78526-bcfb-4935-b8a5-c62e5a32bb0e').username
+        DOCKERHUB_PASSWORD = credentials('76e78526-bcfb-4935-b8a5-c62e5a32bb0e').password
     }
-
+    
     stages {
-        stage('Compile and Clean') { 
+        stage('Build and push Docker image') {
             steps {
-                sh "mvn clean compile"
-            }
-        }
-
-        stage('Test') { 
-            steps {
-                sh "mvn test site"
-            }
-
-            post {
-                always {
-                    junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'   
-                }
-            }     
-        }
-
-        stage('Deploy') { 
-            steps {
-                sh "mvn package"
-            }
-        }
-
-        stage('Build Docker image'){
-            steps {
-                sh "docker build -t anvbhaskar/docker_jenkins_pipeline:${BUILD_NUMBER} ."
-            }
-        }
-
-        stage('Push image to Hub'){
-            steps {
+                sh "docker build -t myimage:${BUILD_NUMBER} ."
                 sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
-                sh "docker push anvbhaskar/docker_jenkins_pipeline:${BUILD_NUMBER}"
-            }
-        }
-  
-        stage('Tag Docker image'){
-            steps {
-                sh "docker tag anvbhaskar/docker_jenkins_pipeline:${BUILD_NUMBER} hamzaemi/hamza_el:${BUILD_NUMBER}"
-            }
-        }
-        
-        stage('Push tagged image to Hub'){
-            steps {
-                sh "docker push hamzaemi/hamza_el:${BUILD_NUMBER}"
-            }
-        }
-        
-        stage('Deploy Docker image'){
-            steps {
-                sh 'docker run -itd -p 8081:8080 anvbhaskar/springboot:0.0.3'
-            }
-        }
-
-        stage('Archiving') { 
-            steps {
-                archiveArtifacts '**/target/*.jar'
+                sh "docker tag myimage:${BUILD_NUMBER} myusername/myimage:${BUILD_NUMBER}"
+                sh "docker push myusername/myimage:${BUILD_NUMBER}"
             }
         }
     }
